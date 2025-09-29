@@ -6,10 +6,18 @@ import android.content.SharedPreferences;
 public class SharedPreferenceHelper {
 
     private SharedPreferences sharedPreferences;
+
     public SharedPreferenceHelper(Context context)
     {
         sharedPreferences = context.getSharedPreferences("ProfilePreference", Context.MODE_PRIVATE );
     }
+
+    public void resetAll() {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.clear();   // clears the whole file
+        editor.apply();
+    }
+
 
     public void saveButtonName(int number, String name){
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -23,14 +31,20 @@ public class SharedPreferenceHelper {
         editor.commit();
     }
 
+    public void saveMaxCount(String maxCount){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("maxCount", maxCount);
+        editor.commit();
+    }
+
     public String getButtonName(int number) {
         switch (number) {
             case 1:
-                return sharedPreferences.getString("buttonName1", "EVENT A");
+                return sharedPreferences.getString("buttonName1", null);
             case 2:
-                return sharedPreferences.getString("buttonName2", "EVENT B");
+                return sharedPreferences.getString("buttonName2", null);
             case 3:
-                return sharedPreferences.getString("buttonName3", "EVENT C");
+                return sharedPreferences.getString("buttonName3", null);
             default:
                 return "";
         }
@@ -38,6 +52,10 @@ public class SharedPreferenceHelper {
 
     public int getTotalCount() {
         return sharedPreferences.getInt("totalCount", 0);
+    }
+
+    public String getMaxCount() {
+        return sharedPreferences.getString("maxCount", null);
     }
 
 }

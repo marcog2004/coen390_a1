@@ -34,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
 
         sharedPreferenceHelper = new SharedPreferenceHelper(MainActivity.this);
 
+        sharedPreferenceHelper.resetAll();
+
         settingsButton = (Button) findViewById(R.id.settingsButton);
         dataButton = (Button) findViewById(R.id.dataButton);
 
@@ -57,30 +59,38 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) { goToDataActivity(); }
         });
 
+
+
         eventButton1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                totalCount++;
-                totalCountTextView.setText("Total Count: " + totalCount);
-                sharedPreferenceHelper.saveTotalCount(totalCount);
+                if (totalCount < Integer.parseInt(sharedPreferenceHelper.getMaxCount())) {
+                    totalCount++;
+                    totalCountTextView.setText("Total Count: " + totalCount);
+                    sharedPreferenceHelper.saveTotalCount(totalCount);
+                }
             }
         });
 
         eventButton2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                totalCount++;
-                totalCountTextView.setText("Total Count: " + totalCount);
-                sharedPreferenceHelper.saveTotalCount(totalCount);
+                if (totalCount < Integer.parseInt(sharedPreferenceHelper.getMaxCount())) {
+                    totalCount++;
+                    totalCountTextView.setText("Total Count: " + totalCount);
+                    sharedPreferenceHelper.saveTotalCount(totalCount);
+                }
             }
         });
 
         eventButton3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                totalCount++;
-                totalCountTextView.setText("Total Count: " + totalCount);
-                sharedPreferenceHelper.saveTotalCount(totalCount);
+                if (totalCount < Integer.parseInt(sharedPreferenceHelper.getMaxCount())) {
+                    totalCount++;
+                    totalCountTextView.setText("Total Count: " + totalCount);
+                    sharedPreferenceHelper.saveTotalCount(totalCount);
+                }
             }
         });
 
@@ -90,9 +100,14 @@ public class MainActivity extends AppCompatActivity {
     {
         super.onStart();
 
-        eventButton1.setText(sharedPreferenceHelper.getButtonName(1));
-        eventButton2.setText(sharedPreferenceHelper.getButtonName(2));
-        eventButton3.setText(sharedPreferenceHelper.getButtonName(3));
+        if (sharedPreferenceHelper.getButtonName(1) == null | sharedPreferenceHelper.getButtonName(2) == null | sharedPreferenceHelper.getButtonName(3) == null){
+            goToSettingsActivity();
+        }else {
+
+            eventButton1.setText(sharedPreferenceHelper.getButtonName(1));
+            eventButton2.setText(sharedPreferenceHelper.getButtonName(2));
+            eventButton3.setText(sharedPreferenceHelper.getButtonName(3));
+        }
 
         totalCount = sharedPreferenceHelper.getTotalCount();
 
