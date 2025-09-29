@@ -38,12 +38,12 @@ public class MainActivity extends AppCompatActivity {
         dataButton = (Button) findViewById(R.id.dataButton);
 
         totalCountTextView = findViewById(R.id.totalCountTextView);
-        totalCountTextView.setText("Total Count: " + sharedPreferenceHelper.getTotalCount());
 
         eventButton1 = (Button) findViewById(R.id.eventButton1);
         eventButton2 = (Button) findViewById(R.id.eventButton2);
         eventButton3 = (Button) findViewById(R.id.eventButton3);
 
+        totalCountTextView.setText("Total Count: " + sharedPreferenceHelper.getTotalCount());
 
         settingsButton.setOnClickListener(new View.OnClickListener() {
             @Override

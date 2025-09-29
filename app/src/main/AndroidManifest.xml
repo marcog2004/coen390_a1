@@ -13,9 +13,11 @@
         android:theme="@style/Theme.Grecomarco_40285114_assignment1">
         <activity
             android:name=".DataActivity"
+            android:parentActivityName=".MainActivity"
             android:exported="false" />
         <activity
             android:name=".SettingsActivity"
+            android:parentActivityName=".MainActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
