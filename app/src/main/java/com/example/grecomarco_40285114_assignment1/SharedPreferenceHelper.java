@@ -11,9 +11,15 @@ public class SharedPreferenceHelper {
         sharedPreferences = context.getSharedPreferences("ProfilePreference", Context.MODE_PRIVATE );
     }
 
-    public void setButtonName(int number, String name){
+    public void saveButtonName(int number, String name){
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("buttonName" + number, name);
+        editor.commit();
+    }
+
+    public void saveTotalCount(int count) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("totalCount", count);
         editor.commit();
     }
 
@@ -29,4 +35,9 @@ public class SharedPreferenceHelper {
                 return "";
         }
     }
+
+    public int getTotalCount() {
+        return sharedPreferences.getInt("totalCount", 0);
+    }
+
 }
