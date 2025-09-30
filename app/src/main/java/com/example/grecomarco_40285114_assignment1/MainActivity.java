@@ -15,6 +15,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class MainActivity extends AppCompatActivity {
 
+    // variables
     protected SharedPreferenceHelper sharedPreferenceHelper;
 
     protected Button settingsButton = null;
@@ -26,6 +27,10 @@ public class MainActivity extends AppCompatActivity {
     private TextView totalCountTextView;
     private int totalCount;
 
+    private int count1;
+    private int count2;
+    private int count3;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,19 +39,24 @@ public class MainActivity extends AppCompatActivity {
 
         sharedPreferenceHelper = new SharedPreferenceHelper(MainActivity.this);
 
-        sharedPreferenceHelper.resetAll();
+        //sharedPreferenceHelper.resetAll(); // used to test with a blank shared preference helper
 
-        settingsButton = (Button) findViewById(R.id.settingsButton);
-        dataButton = (Button) findViewById(R.id.dataButton);
 
+        // textview
         totalCountTextView = findViewById(R.id.totalCountTextView);
 
+        // buttons
         eventButton1 = (Button) findViewById(R.id.eventButton1);
         eventButton2 = (Button) findViewById(R.id.eventButton2);
         eventButton3 = (Button) findViewById(R.id.eventButton3);
+        settingsButton = (Button) findViewById(R.id.settingsButton);
+        dataButton = (Button) findViewById(R.id.dataButton);
 
+
+        // set text of textview
         totalCountTextView.setText("Total Count: " + sharedPreferenceHelper.getTotalCount());
 
+        // button listeners
         settingsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -59,15 +69,15 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) { goToDataActivity(); }
         });
 
-
-
         eventButton1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (totalCount < Integer.parseInt(sharedPreferenceHelper.getMaxCount())) {
                     totalCount++;
+                    count1++;
                     totalCountTextView.setText("Total Count: " + totalCount);
                     sharedPreferenceHelper.saveTotalCount(totalCount);
+                    sharedPreferenceHelper.saveCount1(String.valueOf(count1));
                 }
             }
         });
@@ -77,8 +87,10 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (totalCount < Integer.parseInt(sharedPreferenceHelper.getMaxCount())) {
                     totalCount++;
+                    count2++;
                     totalCountTextView.setText("Total Count: " + totalCount);
                     sharedPreferenceHelper.saveTotalCount(totalCount);
+                    sharedPreferenceHelper.saveCount1(String.valueOf(count2));
                 }
             }
         });
@@ -88,8 +100,10 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (totalCount < Integer.parseInt(sharedPreferenceHelper.getMaxCount())) {
                     totalCount++;
+                    count3++;
                     totalCountTextView.setText("Total Count: " + totalCount);
                     sharedPreferenceHelper.saveTotalCount(totalCount);
+                    sharedPreferenceHelper.saveCount1(String.valueOf(count3));
                 }
             }
         });
@@ -100,6 +114,7 @@ public class MainActivity extends AppCompatActivity {
     {
         super.onStart();
 
+        // update button names when returning to activity
         if (sharedPreferenceHelper.getButtonName(1) == null | sharedPreferenceHelper.getButtonName(2) == null | sharedPreferenceHelper.getButtonName(3) == null){
             goToSettingsActivity();
         }else {
@@ -113,12 +128,14 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    // settings activity intent
     void goToSettingsActivity ()
     {
         Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
         startActivity(intent);
     }
 
+    // data activity intent
     void goToDataActivity()
     {
         Intent intent = new Intent(MainActivity.this, DataActivity.class);

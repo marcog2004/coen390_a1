@@ -15,6 +15,7 @@ import androidx.appcompat.widget.Toolbar;
 
 public class SettingsActivity extends AppCompatActivity {
 
+    // variables
     protected SharedPreferenceHelper sharedPreferenceHelper;
 
     protected Button saveButton = null;
@@ -41,6 +42,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         saveButton = (Button) findViewById(R.id.saveButton) ;
 
+        // set up toolbar
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -48,6 +50,7 @@ public class SettingsActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Settings Activity");
 
+        // save button listener and input validation
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -79,11 +82,13 @@ public class SettingsActivity extends AppCompatActivity {
     {
         super.onStart();
 
+        // set names when returning to activity
         counter1NameEditText.setText(sharedPreferenceHelper.getButtonName((1)));
         counter2NameEditText.setText(sharedPreferenceHelper.getButtonName((2)));
         counter3NameEditText.setText(sharedPreferenceHelper.getButtonName((3)));
         maximumCountsEditText.setText(sharedPreferenceHelper.getMaxCount());
 
+        // allow editing only if entries are blank
         if (String.valueOf(counter1NameEditText.getText()).isEmpty() || String.valueOf(counter2NameEditText.getText()).isEmpty() || String.valueOf(counter3NameEditText.getText()).isEmpty() || String.valueOf(maximumCountsEditText.getText()).isEmpty()) {
             counter1NameEditText.setEnabled(true);
             counter2NameEditText.setEnabled(true);
@@ -110,6 +115,7 @@ public class SettingsActivity extends AppCompatActivity {
         return true;
     }
 
+    // allow editing when pressing edit button
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_edit) {// User chooses the "Settings" item. Show the app settings UI.
