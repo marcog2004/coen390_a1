@@ -4,13 +4,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
-
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 public class DataActivity extends AppCompatActivity {
 
@@ -28,11 +23,12 @@ public class DataActivity extends AppCompatActivity {
     String counter2TextViewString;
     String counter3TextViewString;
     String totalCounterTextViewString;
-
     String count1String;
     String count2String;
     String count3String;
     Toolbar toolbar2 = null;
+
+    private android.widget.ArrayAdapter<String> eventAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +49,10 @@ public class DataActivity extends AppCompatActivity {
         assert getSupportActionBar() != null;
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Data Activity");
+
+        android.widget.ListView eventListView = findViewById(R.id.eventListView);
+        eventAdapter = new android.widget.ArrayAdapter<>(this, android.R.layout.simple_list_item_1, new java.util.ArrayList<>());
+        eventListView.setAdapter(eventAdapter);
     }
 
     @Override
@@ -62,15 +62,14 @@ public class DataActivity extends AppCompatActivity {
         // set names when returning to activity
         eventNames = true;
         setNames();
-
     }
 
+    // toolbar setup (from linked resource in assignment doc)
     @Override
     public boolean onSupportNavigateUp(){
         finish();
         return true;
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -80,12 +79,11 @@ public class DataActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_toggle) {// User chooses the "Toggle" item. Show the app settings UI.
+        if (item.getItemId() == R.id.action_toggle) {// user clicks toggle names
             eventNames = !eventNames;
             setNames();
             return true;
-        }// The user's action isn't recognized.
-        // Invoke the superclass to handle it.
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -93,29 +91,66 @@ public class DataActivity extends AppCompatActivity {
 
         // change between event names and counter numbers when pressing button
 
+        // ensure 0 is printed as "0" and not "null"
         if (sharedPreferenceHelper.getCount1() == null) {count1String = "0";}else {count1String = String.valueOf(sharedPreferenceHelper.getCount1());}
         if (sharedPreferenceHelper.getCount2() == null) {count2String = "0";}else {count2String = String.valueOf(sharedPreferenceHelper.getCount2());}
         if (sharedPreferenceHelper.getCount3() == null) {count3String = "0";}else {count3String = String.valueOf(sharedPreferenceHelper.getCount3());}
 
         if (eventNames) {
+            // show totals using event names
             counter1TextViewString = sharedPreferenceHelper.getButtonName(1) + ": " + count1String + " events";
             counter1TextView.setText(counter1TextViewString);
             counter2TextViewString = sharedPreferenceHelper.getButtonName(2) + ": " + count2String + " events";
             counter2TextView.setText(counter2TextViewString);
             counter3TextViewString = sharedPreferenceHelper.getButtonName(3) + ": " + count3String + " events";
             counter3TextView.setText(counter3TextViewString);
+
+            // create the list using event names
+            java.util.List<String> events = sharedPreferenceHelper.getEventList();
+            java.util.List<String> displayEvents = new java.util.ArrayList<>();
+
+            for (String e : events) {
+                switch (e) {
+                    case "1":
+                        displayEvents.add(sharedPreferenceHelper.getButtonName(1));
+                        break;
+                    case "2":
+                        displayEvents.add(sharedPreferenceHelper.getButtonName(2));
+                        break;
+                    case "3":
+                        displayEvents.add(sharedPreferenceHelper.getButtonName(3));
+                        break;
+                    default:
+                        displayEvents.add("error");
+                }
+            }
+
+            // update list
+            eventAdapter.clear();
+            eventAdapter.addAll(displayEvents);
+            eventAdapter.notifyDataSetChanged();
+
         }else {
+
+            // show totals using event numbers
             counter1TextViewString = "Counter 1: " + count1String + " events";
             counter1TextView.setText(counter1TextViewString);
             counter2TextViewString = "Counter 2: " + count2String + " events";
             counter2TextView.setText(counter2TextViewString);
             counter3TextViewString = "Counter 3: " + count3String + " events";
             counter3TextView.setText(counter3TextViewString);
+
+            // create list using event numbers
+            java.util.List<String> events = sharedPreferenceHelper.getEventList();
+
+            // update list
+            eventAdapter.clear();
+            eventAdapter.addAll(events);
+            eventAdapter.notifyDataSetChanged();
         }
 
+        // update total event count
         totalCounterTextViewString = "Total events: " + String.valueOf(sharedPreferenceHelper.getTotalCount());
         totalCounterTextView.setText(totalCounterTextViewString);
     }
 }
-
-

@@ -1,6 +1,10 @@
 package com.example.grecomarco_40285114_assignment1;
 import android.content.Context;
 import android.content.SharedPreferences;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import android.text.TextUtils;
 
 
 public class SharedPreferenceHelper {
@@ -17,6 +21,7 @@ public class SharedPreferenceHelper {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.clear();   // clears the whole file
         editor.apply();
+        clearEventList();
     }
 
     // save button name / event name
@@ -95,6 +100,32 @@ public class SharedPreferenceHelper {
         return sharedPreferences.getString("count3", null);
     }
 
+    // add an event to the csv event list
+    public void addEvent(String event) {
+        List<String> events = getEventList();
+        events.add(event);
+        saveEventList(events);
+    }
 
+    // get the csv list of events
+    public List<String> getEventList() {
+        String csv = sharedPreferences.getString("eventList", "");
+        if (csv == null || csv.isEmpty()) return new ArrayList<>();
+        return new ArrayList<>(Arrays.asList(csv.split(",")));
+    }
 
+    // save the event list
+    public void saveEventList(List<String> events) {
+        String csv = TextUtils.join(",", events);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("eventList", csv);
+        editor.commit();
+    }
+
+    // reset events list (used for debugging)
+    public void clearEventList() {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.remove("eventList");
+        editor.commit();
+    }
 }

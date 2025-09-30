@@ -3,15 +3,8 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-
-
 import android.os.Bundle;
-
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,8 +18,8 @@ public class MainActivity extends AppCompatActivity {
     protected Button eventButton3 = null;
 
     private TextView totalCountTextView;
-    private int totalCount;
 
+    private int totalCount;
     private int count1;
     private int count2;
     private int count3;
@@ -41,7 +34,6 @@ public class MainActivity extends AppCompatActivity {
 
         //sharedPreferenceHelper.resetAll(); // used to test with a blank shared preference helper
 
-
         // textview
         totalCountTextView = findViewById(R.id.totalCountTextView);
 
@@ -51,7 +43,6 @@ public class MainActivity extends AppCompatActivity {
         eventButton3 = (Button) findViewById(R.id.eventButton3);
         settingsButton = (Button) findViewById(R.id.settingsButton);
         dataButton = (Button) findViewById(R.id.dataButton);
-
 
         // set text of textview
         totalCountTextView.setText("Total Count: " + sharedPreferenceHelper.getTotalCount());
@@ -75,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
                 if (totalCount < Integer.parseInt(sharedPreferenceHelper.getMaxCount())) {
                     totalCount++;
                     count1++;
+                    sharedPreferenceHelper.addEvent("1");
                     totalCountTextView.setText("Total Count: " + totalCount);
                     sharedPreferenceHelper.saveTotalCount(totalCount);
                     sharedPreferenceHelper.saveCount1(String.valueOf(count1));
@@ -88,9 +80,10 @@ public class MainActivity extends AppCompatActivity {
                 if (totalCount < Integer.parseInt(sharedPreferenceHelper.getMaxCount())) {
                     totalCount++;
                     count2++;
+                    sharedPreferenceHelper.addEvent("2");
                     totalCountTextView.setText("Total Count: " + totalCount);
                     sharedPreferenceHelper.saveTotalCount(totalCount);
-                    sharedPreferenceHelper.saveCount1(String.valueOf(count2));
+                    sharedPreferenceHelper.saveCount2(String.valueOf(count2));
                 }
             }
         });
@@ -101,13 +94,13 @@ public class MainActivity extends AppCompatActivity {
                 if (totalCount < Integer.parseInt(sharedPreferenceHelper.getMaxCount())) {
                     totalCount++;
                     count3++;
+                    sharedPreferenceHelper.addEvent("3");
                     totalCountTextView.setText("Total Count: " + totalCount);
                     sharedPreferenceHelper.saveTotalCount(totalCount);
-                    sharedPreferenceHelper.saveCount1(String.valueOf(count3));
+                    sharedPreferenceHelper.saveCount3(String.valueOf(count3));
                 }
             }
         });
-
     }
 
     protected void onStart()
@@ -125,7 +118,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         totalCount = sharedPreferenceHelper.getTotalCount();
-
     }
 
     // settings activity intent

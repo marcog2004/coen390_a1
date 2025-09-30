@@ -72,7 +72,7 @@ public class SettingsActivity extends AppCompatActivity {
                     counter3NameEditText.setEnabled(false);
                     maximumCountsEditText.setEnabled(false);
                 }else{
-                    Toast.makeText(getApplicationContext(), "Invalid Input", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Invalid Input", Toast.LENGTH_SHORT).show(); // send error message if input is invalid
                 }
             }
         });
@@ -103,6 +103,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     }
 
+    // toolbar setup (from linked resource in assignment doc)
     @Override
     public boolean onSupportNavigateUp(){
         finish();
@@ -118,14 +119,13 @@ public class SettingsActivity extends AppCompatActivity {
     // allow editing when pressing edit button
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_edit) {// User chooses the "Settings" item. Show the app settings UI.
+        if (item.getItemId() == R.id.action_edit) { // user clicks edit settings
             counter1NameEditText.setEnabled(true);
             counter2NameEditText.setEnabled(true);
             counter3NameEditText.setEnabled(true);
             maximumCountsEditText.setEnabled((true));
             return true;
-        }// The user's action isn't recognized.
-        // Invoke the superclass to handle it.
+        }
         return super.onOptionsItemSelected(item);
     }
 
